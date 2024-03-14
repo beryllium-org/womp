@@ -10,7 +10,18 @@ for i in [
     shutil.copy(i, path.join(root, "bin/womp", i))
 
 shutil.copy("womp.lja", path.join(root, "bin", "womp.lja"))
-shutil.copy("99-womp.lja", path.join(root, "boot", "99-womp.lja"))
+
+try:
+    mkdir(path.join(root, "boot"))
+except FileExistsError:
+    pass
+
+try:
+    mkdir(path.join(root, "boot/boot.d"))
+except FileExistsError:
+    pass
+
+shutil.copy("99-womp.lja", path.join(root, "boot/boot.d", "99-womp.lja"))
 
 try:
     mkdir(path.join(root, "usr/share/applications"))
