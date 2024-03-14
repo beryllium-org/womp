@@ -1,7 +1,4 @@
-print("""
-    This script is run when a users uninstalls the package.
-    
-    It will not run during an update.
-    Here you should purge all the files you installed with your install script.
-    Do not nuke the system.
-""")
+be.based.rm("rm /boot/99-womp.lja /bin/womp/womp.py /bin/womp/init.lja /bin/womp.lja")
+be.based.rm("rmdir /bin/womp")
+
+be.api.setvar("return", "0")

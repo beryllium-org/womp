@@ -12,4 +12,4 @@ modules:
 package: modules
 	@python3 -u scripts/generate_package.py
 clean:
-	@if [ -e "package.jpk" ]; then rm package.jpk; fi
+	@if [ -e "womp.jpk" ]; then rm womp.jpk; fi

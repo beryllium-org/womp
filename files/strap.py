@@ -1,6 +1,18 @@
-print("""
-    This script is run during the jpkgstrapping of the package from a linux host.
-    
-    You should copy the files you want in the system from here.
-    You should NOT bother with the manifest or the uninstall files from here.
-""")
+try:
+    mkdir(path.join(root, "bin/womp"))
+except FileExistsError:
+    pass
+
+for i in [
+    "womp.py",
+    "init.py",
+]:
+    shutil.copy(i, path.join(root, "bin/womp", i))
+
+shutil.copy("womp.lja", path.join(root, "bin", "womp.lja"))
+shutil.copy("99-womp.lja", path.join(root, "boot", "99-womp.lja"))
+
+try:
+    mkdir(path.join(root, "usr/share/applications"))
+except FileExistsError:
+    pass

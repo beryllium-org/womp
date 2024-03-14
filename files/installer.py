@@ -1,6 +1,11 @@
-print("""
-    This script is run during the first install of the package.
-    
-    You should copy the files you want in the system from here.
-    You should NOT bother with the manifest or the uninstall files from here.
-""")
+be.based.run("mkdir /bin/womp")
+for pv[get_pid()]["f"] in [
+    "womp.py",
+    "init.py",
+]:
+    be.based.run("cp " + vr("f") + " /bin/womp/" + vr("f"))
+be.based.run("cp womp.lja /bin/womp.lja")
+be.based.run("cp 99-womp.lja /boot/99-womp.lja")
+be.based.run("mkdir /usr/share/applications")
+
+be.api.setvar("return", "0")
