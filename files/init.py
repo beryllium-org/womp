@@ -88,7 +88,7 @@ def lm() -> bool:
         if v in [4, 7]:
             ct = time.monotonic()
             good = True
-            while time.monotonic() - ct < 1.2:
+            while time.monotonic() - ct < 0.5:
                 if not pv[0]["consoles"]["ttyDISPLAY0"].in_waiting:
                     good = False
                     break
@@ -149,8 +149,9 @@ def dmenu(title: str, data: list, hint=None, preselect=0) -> int:
     while True:
         vr("repeatk")()
         vr("d").move(y=3)
-        big = len(data) > vr("c").size[1] - 3
+        big = len(data) > vr("c").size[1] - 6
         if not big:
+            vr("d").write()
             for i in range(len(data)):
                 vr("ditem")(data[i], sel == i)
         else:
@@ -200,17 +201,138 @@ def appm() -> None:
 vr("appm", appm)
 del appm
 
-def filem() -> None:
+def fselm(filen) -> None:
     while True:
         sel = vr("dmenu")(
-            "File Manager",
+            "File selected | " + filen,
             [
-                "Not yet implemented",
+                "Cat",
+                "Cat with ducky",
+                "Execute",
+                "Run as a ducky script",
             ],
             hint="Press top left to close. Press Enter to select.",
         )
         if sel == -1:
             break
+        elif not sel:
+            vr("d").clear()
+            with be.api.fopen(filen) as f:
+                lines = f.readlines()
+                for i in lines:
+                    vr("d").nwrite(i)
+                vr("waitc")()
+                vr("refr")()
+                v = vr("ri")()
+        elif sel == 1:
+            if be.api.isdir("/bin/duckycat.lja") == 0:
+                vr("waitc")()
+                vr("d").clear()
+                vr("d").nwrite("Caternating to host.. ")
+                vr("refr")()
+                be.based.run("duckycat " + filen)
+                if int(be.api.getvar("return")):
+                    vr("d").nwrite("FAIL")
+                else:
+                    vr("d").nwrite("OK")
+                vr("refr")()
+                time.sleep(0.5)
+                break
+            else:
+                vr("d").clear()
+                vr("d").nwrite(
+                    "Ducky not installed!\n"
+                    + "Cannot continue.\n"
+                    + "\nPress any key to go back."
+                )
+                vr("waitc")()
+                vr("refr")()
+                v = vr("ri")()
+        elif sel == 2:
+            if filen.endswith(".lja"):
+                vr("waitc")()
+                vr("d").clear()
+                vr("d").nwrite("Running in based.. ")
+                vr("refr")()
+                be.based.command.exec(filen)
+                vr("d").nwrite("Done")
+                vr("refr")()
+                time.sleep(0.5)
+                break
+            elif filen.endswith(".py"):
+                vr("waitc")()
+                vr("d").clear()
+                vr("d").nwrite("Running in python.. ")
+                vr("refr")()
+                be.based.command.fpexec(filen)
+                vr("d").nwrite("Done")
+                vr("refr")()
+                time.sleep(0.5)
+                break
+            else:
+                vr("d").clear()
+                vr("d").nwrite(
+                    "Not an executable!\n"
+                    + "Cannot continue.\n"
+                    + "\nPress any key to go back."
+                )
+                vr("waitc")()
+                vr("refr")()
+                v = vr("ri")()
+        else:
+            if be.api.isdir("/bin/ducky.lja") == 0:
+                vr("waitc")()
+                vr("d").clear()
+                vr("d").nwrite("Running with ducky.. ")
+                vr("refr")()
+                be.based.run("ducky " + filen)
+                if int(be.api.getvar("return")):
+                    vr("d").nwrite("FAIL")
+                else:
+                    vr("d").nwrite("OK")
+                vr("refr")()
+                time.sleep(0.5)
+                break
+            else:
+                vr("d").clear()
+                vr("d").nwrite(
+                    "Ducky not installed!\n"
+                    + "Cannot continue.\n"
+                    + "\nPress any key to go back."
+                )
+                vr("waitc")()
+                vr("refr")()
+                v = vr("ri")()
+
+vr("fselm", fselm)
+del fselm
+
+def filem() -> None:
+    old = getcwd()
+    sel = 0
+    while True:
+        listing = be.api.listdir()
+        fl = [".."]
+        for i in range(len(listing)):
+            fl.append(listing[i][1] + " | " + listing[i][0])
+        sel = vr("dmenu")(
+            "File Manager | In: " + be.api.betterpath(),
+            fl,
+            hint="Press top left to close. Press Enter to select.",
+            preselect=sel,
+        )
+        if sel == -1:
+            break
+        elif not sel:
+            chdir(fl[0])
+            sel = 0
+        else:
+            if be.api.isdir(listing[sel-1][0]) == 1:
+                chdir(listing[sel-1][0])
+                sel = 0
+            else:
+                vr("fselm")(listing[sel-1][0])
+    chdir(old)
 
 
 vr("filem", filem)
@@ -264,7 +386,7 @@ def hs() -> None:
             vr("filem")()
         elif sel == 2:
             vr("setm")()
-        elif sel == 3:
+        else:
             vr("about")()
 
 
