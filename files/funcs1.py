@@ -1,8 +1,10 @@
 def ri() -> int:
     try:
         vr("d").focus = 0
+        be.io.ledset(1)
         vr("d").buf[1] = ""
         vr("d").program()
+        be.io.ledset(3)
     except KeyboardInterrupt:
         vr("d").buf[0] = 4
     return vr("d").buf[0]
