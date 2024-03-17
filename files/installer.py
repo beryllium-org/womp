@@ -2,6 +2,8 @@ be.based.run("mkdir /bin/womp")
 for pv[get_pid()]["f"] in [
     "womp.py",
     "init.py",
+    "funcs1.py",
+    "funcs2.py",
 ]:
     be.based.run("cp " + vr("f") + " /bin/womp/" + vr("f"))
 be.based.run("cp womp.lja /bin/womp.lja")

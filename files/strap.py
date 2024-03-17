@@ -6,6 +6,8 @@ except FileExistsError:
 for i in [
     "womp.py",
     "init.py",
+    "funcs1.py",
+    "funcs2.py",
 ]:
     shutil.copy(i, path.join(root, "bin/womp", i))
 
