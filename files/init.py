@@ -1,4 +1,3 @@
-vr("opts", be.api.xarg())
 vr("d", jcurses())
 vr("c", pv[0]["consoles"]["ttyDISPLAY0"])
 vr("d").console = vr("c")
