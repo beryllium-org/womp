@@ -55,8 +55,9 @@ def fselm(filen) -> None:
             vr("d").clear()
             with be.api.fopen(filen[0]) as f:
                 lines = f.readlines()
-                for i in lines:
+                for i in lines[:-1]:
                     vr("d").nwrite(i)
+                vr("d").nwrite(lines[-1][:-(1 if lines[-1][-1] == "\n" else 0)])
                 vr("waitc")()
                 vr("refr")()
                 v = vr("ri")()
