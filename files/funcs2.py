@@ -53,7 +53,7 @@ def fselm(filen) -> None:
             v = vr("ri")()
         elif sel == 1:
             vr("d").clear()
-            with be.api.fopen(filen[0]) as f:
+            with be.api.fs.open(filen[0]) as f:
                 lines = f.readlines()
                 for i in lines[:-1]:
                     vr("d").nwrite(i)
