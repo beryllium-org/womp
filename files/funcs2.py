@@ -62,7 +62,7 @@ def fselm(filen) -> None:
                 vr("refr")()
                 v = vr("ri")()
         elif sel == 2:
-            if be.api.isdir("/bin/duckycat.lja") == 0:
+            if be.api.fs.isdir("/bin/duckycat.lja") == 0:
                 vr("waitc")()
                 vr("d").clear()
                 vr("d").nwrite("Caternating to host.. ")
@@ -117,7 +117,7 @@ def fselm(filen) -> None:
                 vr("refr")()
                 v = vr("ri")()
         else:
-            if be.api.isdir("/bin/ducky.lja") == 0:
+            if be.api.fs.isdir("/bin/ducky.lja") == 0:
                 vr("waitc")()
                 vr("d").clear()
                 vr("d").nwrite("Running with ducky.. ")

@@ -198,7 +198,7 @@ def filem() -> None:
     old = getcwd()
     sel = 0
     while True:
-        listing = be.api.listdir()
+        listing = be.api.fs.listdir()
         notr = getcwd() != "/"
         fl = ["d | .."] if notr else []
         for i in range(len(listing)):
@@ -216,13 +216,13 @@ def filem() -> None:
                 chdir("..")
                 sel = 0
             else:
-                if be.api.isdir(listing[sel - 1][0]) == 1:
+                if be.api.fs.isdir(listing[sel - 1][0]) == 1:
                     chdir(listing[sel - 1][0])
                     sel = 0
                 else:
                     vr("fselm")(listing[sel - (1 if notr else 0)])
         else:
-            if be.api.isdir(listing[sel][0]) == 1:
+            if be.api.fs.isdir(listing[sel][0]) == 1:
                 chdir(listing[sel][0])
                 sel = 0
             else:
