@@ -41,7 +41,7 @@ def fselm(filen) -> None:
                 + "\n"
                 + (vr("c").size[0] * "-")
                 + "\nFull path: \n"
-                + str(be.api.basepath()) + "/" + filen[0]
+                + str(be.api.fs.base()) + "/" + filen[0]
                 + "\n\nSize: "
                 + sz
                 + "\nModified: "
