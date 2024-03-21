@@ -204,7 +204,7 @@ def filem() -> None:
         for i in range(len(listing)):
             fl.append(listing[i][1] + " | " + listing[i][0])
         sel = vr("dmenu")(
-            "File Manager | In: " + be.api.betterpath(),
+            "File Manager | In: " + be.api.fs.resolve(),
             fl,
             hint="Press top left to close. Press Enter to select.",
             preselect=sel,
