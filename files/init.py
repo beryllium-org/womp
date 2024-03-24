@@ -21,5 +21,6 @@ vr("d").trigger_dict = {
     "echo": "none",
     "prefix": "",
     "permit_pos": False,
+    "idle": 9,
 }
 vr("c").enable()
