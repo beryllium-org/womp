@@ -66,13 +66,13 @@ del ticker
 
 def drinfo() -> None:
     vr("d").move(x=23, y=6)
-    vr("d").nwrite(str(len(pid_act)) + " Active processes")
+    vr("d").nwrite(str(len(pid_act)) + " Active processes   ")
     vr("d").move(x=23, y=7)
-    vr("d").nwrite(str(len(be.scheduler)) + " Running in background")
+    vr("d").nwrite(str(len(be.scheduler)) + " Running in background   ")
     vr("d").move(x=23, y=8)
     gc.collect()
     gc.collect()
-    vr("d").nwrite(str(gc.mem_free()) + " Bytes free")
+    vr("d").nwrite(str(gc.mem_free()) + " Bytes free     ")
     vr("d").move(x=37, y=9)
     vr("ticker")()
     vr("refr")()
