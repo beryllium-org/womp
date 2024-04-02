@@ -266,12 +266,17 @@ def filem() -> None:
         fl = ["d | .."] if notr else []
         for i in range(len(listing)):
             fl.append(listing[i][1] + " | " + listing[i][0])
+        cwdn = be.api.fs.resolve()
+        remsps = 32
+        if len(cwdn) > remsps:
+            cwdn = cwdn[:remsps-2] + ".."
         sel = vr("dmenu")(
-            "File Manager | In: " + be.api.fs.resolve(),
+            "File Manager | In: " + cwdn,
             fl,
             hint="Press top left to close. Press Enter to select.",
             preselect=sel,
         )
+        del cwdn, remsps
         if sel == -1:
             break
         elif notr:
