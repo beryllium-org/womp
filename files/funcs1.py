@@ -44,6 +44,7 @@ del waitc
 
 vr("tix", 0)
 
+
 def ticker() -> None:
     if not vr("tix"):
         vr("d").nwrite("[|||||||]")
@@ -61,8 +62,10 @@ def ticker() -> None:
     if vr("tix") == 6:
         vr("tix", 0)
 
+
 vr("ticker", ticker)
 del ticker
+
 
 def drinfo() -> None:
     vr("d").move(x=23, y=6)
@@ -72,13 +75,16 @@ def drinfo() -> None:
     vr("d").move(x=23, y=8)
     gc.collect()
     gc.collect()
+    gc.collect()
     vr("d").nwrite(str(gc.mem_free()) + " Bytes free     ")
     vr("d").move(x=37, y=9)
     vr("ticker")()
     vr("refr")()
 
+
 vr("drinfo", drinfo)
 del drinfo
+
 
 def lm() -> bool:
     vr("d").clear()
@@ -120,6 +126,13 @@ def lm() -> bool:
                 be.io.ledset(3)
                 ct = time.monotonic()
                 good = True
+                if v == 7:
+                    vr("d").move(y=vr("c").size[1], x=35)
+                    vr("d").nwrite("keep holding.")
+                else:
+                    vr("d").move(y=vr("c").size[1])
+                    vr("d").nwrite(" Keep holding to quit.")
+                vr("refr")()
                 while time.monotonic() - ct < 0.5:
                     if not pv[0]["consoles"]["ttyDISPLAY0"].in_waiting:
                         good = False
@@ -132,6 +145,10 @@ def lm() -> bool:
                     vr("refr")()
                     vr("waitc")()
                     return v == 7
+                else:
+                    vr("d").move(y=vr("c").size[1])
+                    vr("d").nwrite("Hold top left to quit. To unlock, hold enter.  ")
+                    vr("refr")()
             elif v == 9:
                 be.api.tasks.run()
     except KeyboardInterrupt:
@@ -223,16 +240,21 @@ del dmenu
 
 
 def appm() -> None:
+    apps_lst = be.api.fs.listdir("/usr/share/applications")
+    apps_k = ["Main menu"]
+    for i in range(len(apps_lst)):
+        apps_k.append(apps_lst[i][0])
     while True:
         sel = vr("dmenu")(
             "Apps",
-            [
-                "No apps",
-            ],
+            apps_k,
             hint="Press top left to go back. Press Enter to select.",
         )
-        if sel == -1:
+        if sel in [-1, 0]:
             break
+        else:
+            pass # not yet implemented
+            # be.based.command.fpexec("/usr/share/applications/")
 
 
 vr("appm", appm)
@@ -269,7 +291,7 @@ def filem() -> None:
         cwdn = be.api.fs.resolve()
         remsps = 32
         if len(cwdn) > remsps:
-            cwdn = cwdn[:remsps-2] + ".."
+            cwdn = cwdn[: remsps - 2] + ".."
         sel = vr("dmenu")(
             "File Manager | In: " + cwdn,
             fl,
