@@ -253,7 +253,7 @@ def appm() -> None:
         if sel in [-1, 0]:
             break
         else:
-            pass # not yet implemented
+            pass  # not yet implemented
             # be.based.command.fpexec("/usr/share/applications/")
 
 

@@ -41,7 +41,9 @@ def fselm(filen) -> None:
                 + "\n"
                 + (vr("c").size[0] * "-")
                 + "\nFull path: \n"
-                + str(be.api.fs.base()) + "/" + filen[0]
+                + str(be.api.fs.base())
+                + "/"
+                + filen[0]
                 + "\n\nSize: "
                 + sz
                 + "\nModified: "
@@ -57,7 +59,7 @@ def fselm(filen) -> None:
                 lines = f.readlines()
                 for i in lines[:-1]:
                     vr("d").nwrite(i)
-                vr("d").nwrite(lines[-1][:-(1 if lines[-1][-1] == "\n" else 0)])
+                vr("d").nwrite(lines[-1][: -(1 if lines[-1][-1] == "\n" else 0)])
                 vr("waitc")()
                 vr("refr")()
                 v = vr("ri")()
