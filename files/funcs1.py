@@ -388,3 +388,4 @@ def vmain() -> None:
 
 vr("main", vmain)
 del vmain
+vrp("ok")

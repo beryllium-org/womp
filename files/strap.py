@@ -3,12 +3,7 @@ try:
 except FileExistsError:
     pass
 
-for i in [
-    "womp.py",
-    "init.py",
-    "funcs1.py",
-    "funcs2.py",
-]:
+for i in ["womp.py", "init.py", "funcs1.py", "funcs2.py", "funcs3.py", "funcs4.py"]:
     shutil.copy(i, path.join(root, "bin/womp", i))
 
 shutil.copy("womp.lja", path.join(root, "bin", "womp.lja"))

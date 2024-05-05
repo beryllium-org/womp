@@ -4,6 +4,8 @@ for pv[get_pid()]["f"] in [
     "init.py",
     "funcs1.py",
     "funcs2.py",
+    "funcs3.py",
+    "funcs4.py",
 ]:
     be.based.run("cp " + vr("f") + " /bin/womp/" + vr("f"))
 be.based.run("cp womp.lja /bin/womp.lja")

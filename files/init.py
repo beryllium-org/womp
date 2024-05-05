@@ -24,3 +24,4 @@ vr("d").trigger_dict = {
     "idle": 9,
 }
 vr("c").enable()
+vrp("ok")
