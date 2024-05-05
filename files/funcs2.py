@@ -59,7 +59,8 @@ def fselm(filen) -> None:
                 lines = f.readlines()
                 for i in lines[:-1]:
                     vr("d").nwrite(i)
-                vr("d").nwrite(lines[-1][: -(1 if lines[-1][-1] == "\n" else 0)])
+                if lines:
+                    vr("d").nwrite(lines[-1][: -(1 if lines[-1][-1] == "\n" else 0)])
                 vr("waitc")()
                 vr("refr")()
                 v = vr("ri")()
