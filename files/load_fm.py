@@ -147,4 +147,3 @@ def fselm(filen) -> None:
 
 vr("fselm", fselm)
 del fselm
-vrp("ok")

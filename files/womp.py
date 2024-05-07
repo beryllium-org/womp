@@ -3,14 +3,12 @@ vr("opts", be.api.xarg())
 if (not be.api.console_connected()) or "f" in vr("opts")["o"]:
     vr("ok", 0)
     be.api.subscript("/bin/womp/init.py")
-    be.api.subscript("/bin/womp/funcs1.py")
-    be.api.subscript("/bin/womp/funcs2.py")
-    be.api.subscript("/bin/womp/funcs3.py")
-    be.api.subscript("/bin/womp/funcs4.py")
+    be.api.subscript("/bin/womp/hs.py")
     gc.collect()
     gc.collect()
-    vr("crashes", 0)
-    if vr("ok") == 5:
+    if vr("ok") == 2:
+        vrd("ok")
+        vr("crashes", 0)
         while vr("crashes") < 3:
             try:
                 vr("main")()
@@ -27,7 +25,7 @@ if (not be.api.console_connected()) or "f" in vr("opts")["o"]:
                 else:
                     term.write("Too many crashing, exiting womp!")
     else:
-        term.write("Failed to init womp!")
+        term.write("Failed to initialize womp!")
     vr("c").disable()
     be.devices["DISPLAY"][0].auto_refresh = True
 else:
