@@ -84,7 +84,7 @@ def dmenu(title: str, data: list, hint=None, preselect=0) -> int:
     scl = 0
     while sel - scl > vr("c").size[1] - 6:
         scl += 1
-    while True:
+    while not vr("quit_womp"):
         vr("repeatk")()
         vr("d").move(y=3)
         big = len(data) > vr("c").size[1] - 6
@@ -144,89 +144,8 @@ def appm() -> None:
 vr("appm", appm)
 del appm
 
-vr(
-    "mdict",
-    {
-        1: "Jan",
-        2: "Feb",
-        3: "Mar",
-        4: "Apr",
-        5: "May",
-        6: "Jun",
-        7: "Jul",
-        8: "Aug",
-        9: "Sep",
-        10: "Oct",
-        11: "Nov",
-        12: "Dec",
-    },
-)
-
-
-def filem() -> None:
-    old = getcwd()
-    sel = 0
-    while True:
-        listing = be.api.fs.listdir()
-        notr = getcwd() != "/"
-        fl = ["d | .."] if notr else []
-        for i in range(len(listing)):
-            fl.append(listing[i][1] + " | " + listing[i][0])
-        cwdn = be.api.fs.resolve()
-        remsps = 32
-        if len(cwdn) > remsps:
-            cwdn = cwdn[: remsps - 2] + ".."
-        sel = vr("dmenu")(
-            "File Manager | In: " + cwdn,
-            fl,
-            hint="Press top left to close. Press Enter to select.",
-            preselect=sel,
-        )
-        del cwdn, remsps
-        if sel == -1:
-            break
-        elif notr:
-            if not sel:
-                chdir("..")
-                sel = 0
-            else:
-                if be.api.fs.isdir(listing[sel - 1][0]) == 1:
-                    chdir(listing[sel - 1][0])
-                    sel = 0
-                else:
-                    vr("fselm")(listing[sel - (1 if notr else 0)])
-        else:
-            if be.api.fs.isdir(listing[sel][0]) == 1:
-                chdir(listing[sel][0])
-                sel = 0
-            else:
-                vr("fselm")(listing[sel])
-    chdir(old)
-
-
-vr("filem", filem)
-del filem
-
-
-def setm() -> None:
-    while True:
-        sel = vr("dmenu")(
-            "Settings",
-            [
-                "Not yet implemented",
-            ],
-            hint="Press top left to close. Press Enter to select.",
-        )
-        if sel == -1:
-            break
-
-
-vr("setm", setm)
-del setm
-
-
 def hs() -> None:
-    while True:
+    while not vr("quit_womp"):
         sel = vr("dmenu")(
             "Home",
             ["Apps", "Files", "Settings"],
@@ -241,7 +160,9 @@ def hs() -> None:
             vr("filem")()
             be.api.subscript("/bin/womp/unload_fm.py")
         else:
+            be.api.subscript("/bin/womp/load_settings.py")
             vr("setm")()
+            be.api.subscript("/bin/womp/unload_settings.py")
 
 
 vr("hs", hs)
@@ -263,9 +184,10 @@ def ukb() -> None:
 vr("ukb", ukb)
 del ukb
 
+vr("quit_womp", False)
 
 def vmain() -> None:
-    while True:
+    while not vr("quit_womp"):
         be.api.subscript("/bin/womp/load_lock.py")
         if vr("lm")():
             be.api.subscript("/bin/womp/unload_lock.py")

@@ -10,9 +10,11 @@ for i in [
     "load_fm.py",
     "load_kb.py",
     "load_lock.py",
+    "load_settings.py"
     "unload_fm.py",
     "unload_kb.py",
     "unload_lock.py",
+    "unload_settings.py"
     "womp.py",
 ]:
     shutil.copy(i, path.join(root, "bin/womp", i))

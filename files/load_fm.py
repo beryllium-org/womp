@@ -1,3 +1,22 @@
+vr(
+    "mdict",
+    {
+        1: "Jan",
+        2: "Feb",
+        3: "Mar",
+        4: "Apr",
+        5: "May",
+        6: "Jun",
+        7: "Jul",
+        8: "Aug",
+        9: "Sep",
+        10: "Oct",
+        11: "Nov",
+        12: "Dec",
+    },
+)
+
+
 def fselm(filen) -> None:
     while True:
         sel = vr("dmenu")(
@@ -147,3 +166,47 @@ def fselm(filen) -> None:
 
 vr("fselm", fselm)
 del fselm
+
+def filem() -> None:
+    old = getcwd()
+    sel = 0
+    while True:
+        listing = be.api.fs.listdir()
+        notr = getcwd() != "/"
+        fl = ["d | .."] if notr else []
+        for i in range(len(listing)):
+            fl.append(listing[i][1] + " | " + listing[i][0])
+        cwdn = be.api.fs.resolve()
+        remsps = 32
+        if len(cwdn) > remsps:
+            cwdn = cwdn[: remsps - 2] + ".."
+        sel = vr("dmenu")(
+            "File Manager | In: " + cwdn,
+            fl,
+            hint="Press top left to close. Press Enter to select.",
+            preselect=sel,
+        )
+        del cwdn, remsps
+        if sel == -1:
+            break
+        elif notr:
+            if not sel:
+                chdir("..")
+                sel = 0
+            else:
+                if be.api.fs.isdir(listing[sel - 1][0]) == 1:
+                    chdir(listing[sel - 1][0])
+                    sel = 0
+                else:
+                    vr("fselm")(listing[sel - (1 if notr else 0)])
+        else:
+            if be.api.fs.isdir(listing[sel][0]) == 1:
+                chdir(listing[sel][0])
+                sel = 0
+            else:
+                vr("fselm")(listing[sel])
+    chdir(old)
+
+
+vr("filem", filem)
+del filem

@@ -5,9 +5,11 @@ for pv[get_pid()]["f"] in [
     "load_fm.py",
     "load_kb.py",
     "load_lock.py",
+    "load_settings.py"
     "unload_fm.py",
     "unload_kb.py",
     "unload_lock.py",
+    "unload_settings.py"
     "womp.py",
 ]:
     be.based.run("cp " + vr("f") + " /bin/womp/" + vr("f"))
